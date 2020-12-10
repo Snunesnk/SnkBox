@@ -13,7 +13,7 @@
 # Fonction to print usage if user used an invalid option / no option
 printUsage()
 {
-	echo "I'll print the usage";
+	echo "I'll print the usage"
 }
 
 
@@ -22,16 +22,26 @@ printUsage()
 #True magic
 bigFunctionToInitAll()
 {
-	echo "Let's init everything!";
+	echo "Let's init everything!"
 }
 
-if [ -z $1 ]
-then
-	printUsage
 
-elif [ $1 == "init" ]
-then
-	echo "It works!";
-fi
+#Let's find what the user wants to do
+case $1 in
 
+	init)
+		bigFunctionToInitAll
+		;;
 
+	deploy)
+		echo "I need to deploy all / some services"
+		;;
+
+	stop)
+		echo "I need to stop all / some services"
+		;;
+
+	*)
+		printUsage
+		;;
+esac
