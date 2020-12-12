@@ -24,29 +24,29 @@ printUsage()
 
 #Function to install package with apt
 InstallAptPack() {
-	#Check if a file would be executed when calling "wget", and check that it's
-	#an existing pass
-	if ! pack_location=$(type -p $1) || [[ -z $pack_location ]];
-	then
-		echo "$1 not installed, installing it ..."
-		sudo apt install $1
-		
-		#Check if everything went well
-		ret_val=$?
-
-		echo "$ret_val"
-
-		if [ $ret_val -eq 0 ]
+	for bin in $@
+	do
+		#Check if a file would be executed when calling the executable, and check that it's
+		#an existing pass
+		dpkg -s $bin > /dev/null 2>&1
+		if [ $? -ne 0 ];
 		then
-			echo "$1 installed successfully !" #Maybe I can add little coloration to this
+			echo "${bin} not installed, installing it ..."
+			sudo apt install $bin
+		
+			#Check if everything went well
+			if [ $? -eq 0 ]
+			then
+				echo "${bin} installed successfully !" #Maybe I can add little coloration to this
+			else
+				echo "Intallation for ${bold}${bin}${normal} failed ..."
+				echo "Try to fix the error or install ${bin} manually, then you may relaunch the script."
+				exit 1
+			fi
 		else
-			echo "Intallation for $bold$1$normal failed ..."
-			echo "Try to fix the error or install $1 manually, then you may relaunch the script."
-			exit 1
+			echo "${bin} already installed, skip installation."
 		fi
-	else
-		echo "$1 already installed, skip installation."
-	fi
+	done
 }
 
 ##Function to install a software, based on its URL => don't know if it's a good method but ...
@@ -89,11 +89,11 @@ bigFunctionToInitAll()
 	sudo apt update
 	echo "Done."
 	echo "Instaling everything needed."
-	sudo apt install apt-transport-https \
-		ca-certificates \
-		curl \
-		gnupg-agent \
-		software-properties-common
+	InstallAptPack "apt-transport-https" \
+		"ca-certificates" \
+		"curl" \
+		"gnupg-agent" \
+		"software-properties-common"
 	echo "Done."
 	echo "Adding Docker's official GPG key ..."
 	curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
@@ -108,7 +108,7 @@ bigFunctionToInitAll()
 	sudo apt update
 	echo "Done."
 	echo "Installing docker engine ..."
-	sudo apt install docker-ce docker-ce-cli containerd.io
+	InstallAptPack "docker-ce" "docker-ce-cli" "containerd.io"
 	echo "Done."
 	echo ""
 	#check if user already have docker completion or not
@@ -142,6 +142,7 @@ bigFunctionToInitAll()
 	echo ""
 	echo "${bold}TRANSMISSION:${normal}"
 	echo ""
+
 #	InstallSoft ""
 
 }
