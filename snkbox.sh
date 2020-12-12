@@ -61,7 +61,7 @@ bigFunctionToInitAll()
 {
 	echo "Let's setup everything!"
 	echo ""
-	echo "--------------- FIRST PART: tools ---------------"
+	echo "${bold}--------------- FIRST PART: tools ---------------${normal}"
 	echo ""
 	echo "All the needed programm will be downloaded, such as wget, tar, ..."
 	echo "Please make sure you have root access to download them, or that everything needed is already download."
@@ -70,14 +70,17 @@ bigFunctionToInitAll()
 	InstallAptPack "wget"
 
 	echo ""
-	echo "--------------- SECOND PART: softwares ---------------"
+	echo "${bold}--------------- SECOND PART: softwares ---------------${normal}"
 	echo ""
 	echo "Now comes the great part."
 	echo "All the softwares required for your webserver will be downloaded."
 	echo "At certain point, you will be asked to choose between two softwares, or for a specific version of the software."
 	echo "If you don't know which one to choose, go for the defaut option."
 	echo ""
-	echo "$boldDOCKER:$normal" #need to see if I have to switch to kubernetes
+
+
+
+	echo "${bold}DOCKER:${normal}" #need to see if I have to switch to kubernetes
 	echo ""
 	echo "Removing old docker versions (if any) ..."
 	sudo apt remove docker docker-engine docker.io containerd runc
@@ -107,15 +110,69 @@ bigFunctionToInitAll()
 	echo "Installing docker engine ..."
 	sudo apt install docker-ce docker-ce-cli containerd.io
 	echo "Done."
-
-	
 	echo ""
-	echo "$boldTRANSMISSION:$normal"
+	#check if user already have docker completion or not
+	if [ ! -e /etc/bash_completion.d/docker-compose ]
+	then
+		echo "Do you want to install Docker command-line completion for bash?"
+		echo "Note: For zsh oh-my-zsh completion, add \"docker\" and \"docker-compose\" to your plugins in ~/.zshrc."
+		echo "Ex: \"plugins=(... docker docker-compose)\""
+		echo "Add it for bash? [Y/N] (default: N):"
+		read
+		if [ $REPLY == "y" ] || [ $REPLY == "yes" ] || [ $REPLY == "Y" ] || [ $REPLY == "YES" ]
+		then
+			sudo curl -L \
+				https://raw.githubusercontent.com/docker/compose/1.27.4/contrib/completion/bash/docker-compose \
+				-o /etc/bash_completion.d/docker-compose
+			echo "Done."
+		fi
+	fi
+
+
+
+	echo ""
+	echo "${bold}Portainer:${normal}"
+	echo ""
+	echo "Creating volume for portainer."
+	sudo docker volume create portainer_data
+	echo "Done."
+
+
+
+	echo ""
+	echo "${bold}TRANSMISSION:${normal}"
 	echo ""
 #	InstallSoft ""
 
 }
 
+
+#Start one or more services by executing the corresponding script
+deployServices() {
+	#Check if user specified a service, if not then launch all scripts
+	if [ -z $2 ]
+	then
+		for script in ./deploy_scripts/
+		do
+			bash script
+		done
+	else
+		for service in $@
+		do
+			if [ $service != "deploy" ]
+			then
+				sudo bash ./deploy_scripts/${service}_deploy.sh
+				if [ $? -ne 0 ]
+				then
+					echo "An error occured when trying to deploy $service."
+					echo "Please check the spelling, it must match ./deploy_scripts/<service>_deploy.sh"
+					echo "Aborting."
+					exit
+				fi
+			fi
+		done
+	fi
+}
 
 #Let's find what the user wants to do
 case $1 in
@@ -125,7 +182,7 @@ case $1 in
 		;;
 
 	deploy)
-		echo "I need to deploy all / some services"
+		deployServices "$@"
 		;;
 
 	stop)
