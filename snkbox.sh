@@ -49,10 +49,10 @@ InstallAptPack() {
 	fi
 }
 
-#Function to install a software, based on its URL => don't know if it's a good method but ...
-InstallSoft() {
-
-}
+##Function to install a software, based on its URL => don't know if it's a good method but ...
+#InstallSoft() {
+#
+#}
 
 #This function will get all setup for you.
 #It will download all, add all repo, setup everything properly
@@ -67,8 +67,7 @@ bigFunctionToInitAll()
 	echo "Please make sure you have root access to download them, or that everything needed is already download."
 	echo ""
 	echo "Checking for wget ..."
-	InstallAptPack "wgiet"
-	
+	InstallAptPack "wget"
 
 	echo ""
 	echo "--------------- SECOND PART: softwares ---------------"
@@ -79,11 +78,41 @@ bigFunctionToInitAll()
 	echo "If you don't know which one to choose, go for the defaut option."
 	echo ""
 	echo "$boldDOCKER:$normal" #need to see if I have to switch to kubernetes
+	echo ""
+	echo "Removing old docker versions (if any) ..."
+	sudo apt remove docker docker-engine docker.io containerd runc
+	echo "Done."
+	echo "Updating ..."
+	sudo apt update
+	echo "Done."
+	echo "Instaling everything needed."
+	sudo apt install apt-transport-https \
+		ca-certificates \
+		curl \
+		gnupg-agent \
+		software-properties-common
+	echo "Done."
+	echo "Adding Docker's official GPG key ..."
+	curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+	echo "Done."
+	echo "Setting up stabel repository ..."
+	sudo add-apt-repository \
+		"deb [arch=amd64] https://download.docker.com/linux/ubuntu \
+		$(lsb_release -cs) \
+		stable"
+	echo "Done."
+	echo "Updating repo ..."
+	sudo apt update
+	echo "Done."
+	echo "Installing docker engine ..."
+	sudo apt install docker-ce docker-ce-cli containerd.io
+	echo "Done."
+
 	
 	echo ""
 	echo "$boldTRANSMISSION:$normal"
 	echo ""
-	InstallSoft ""
+#	InstallSoft ""
 
 }
 
