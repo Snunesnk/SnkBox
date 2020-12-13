@@ -79,15 +79,9 @@ SetupDocker()
 		"software-properties-common"
 	echo "Done."
 
-	sudo apt-key fingerprint 0EBFCD88 > /dev/null 2>&1
-	if [ $? -ne 0 ]
-	then
-		echo "Adding Docker's official GPG key ..."
-		curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
-		echo "Done."
-	else
-		echo "Docker's official GPG key already added, skip."
-	fi
+	echo "Adding Docker's official GPG key ..."
+	curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+	echo "Done."
 
 	echo "Setting up stable repository ..."
 	if ! grep -q "^deb*https://download.docker.com/linux/ubuntu" /etc/apt/sources.list /etc/apt/sources.list.d/*
