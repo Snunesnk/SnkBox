@@ -8,8 +8,8 @@ sudo docker run -d \
 	-e PGID=1000 \
 	-e TZ=Europe/London \
 	-p 9117:9117 \
-	-v path to data:/config \
-	-v path to blackhole:/downloads \
+	-v `pwd`/Jackett/config:/config \
+	-v `pwd`/Jackett/downloads:/downloads \
 	--restart unless-stopped \
 	linuxserver/jackett
 echo "Done."

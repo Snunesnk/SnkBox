@@ -158,9 +158,9 @@ deployServices() {
 	#Check if user specified a service, if not then launch all scripts
 	if [ -z $2 ]
 	then
-		for script in ./deploy_scripts/
+		for script in ./deploy_scripts/*
 		do
-			bash script
+			bash $script
 		done
 	else
 		for service in $@

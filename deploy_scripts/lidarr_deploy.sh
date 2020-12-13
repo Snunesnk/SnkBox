@@ -8,9 +8,9 @@ sudo docker run -d \
 	-e PGID=1000 \
 	-e TZ=Europe/London \
 	-p 8686:8686 \
-	-v /path/to/appdata/config:/config \
-	-v /path/to/music:/music \
-	-v /path/to/downloads:/downloads \
+	-v `pwd`/Lidarr/config:/config \
+	-v `pwd`/Lidarr/music:/music \
+	-v `pwd`/Lidarr/downloads:/downloads \
 	--restart unless-stopped \
 	linuxserver/lidarr
 echo ""

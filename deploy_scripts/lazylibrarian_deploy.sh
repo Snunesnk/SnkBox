@@ -8,8 +8,8 @@ sudo docker run -d \
 	-e PGID=1000 \
 	-e TZ=Europe/London \
 	-p 5299:5299 \
-	-v path to data:/config \
-	-v path to downloads:/downloads \
+	-v `pwd`/LazyLibrarian/config:/config \
+	-v `pwd`/LazyLibrarian/downloads:/downloads \
 	-v path to data:/books \
 	--restart unless-stopped \
 	linuxserver/lazylibrarian

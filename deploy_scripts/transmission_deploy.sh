@@ -4,7 +4,7 @@ echo ""
 echo "Starting transmission container ..."
  docker run --cap-add=NET_ADMIN -d \
 	--name=transmission \
-	-v /your/storage/path/:/data \
+	-v `pwd`/Transmission/data:/data \
 	-v /etc/localtime:/etc/localtime:ro \
 	-e CREATE_TUN_DEVICE=true \
 	-e OPENVPN_PROVIDER=PIA \

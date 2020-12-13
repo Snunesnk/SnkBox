@@ -7,7 +7,7 @@ echo "Starting ombi container ..."
   -e PGID=1000 \
   -e TZ=Europe/London \
   -p 3579:3579 \
-  -v /path/to/appdata/config:/config \
+  -v `pwd`/Ombi/config:/config \
   --restart unless-stopped \
   linuxserver/ombi
 echo ""
