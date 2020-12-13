@@ -169,7 +169,8 @@ SetupDocker()
 		Sonarr/downloads \
 		Transmission/config \
 		Transmission/downloads \
-		Transmission/watch
+		Transmission/watch \
+		Jellyfin/config
 	echo "done"
 
 
