@@ -10,7 +10,7 @@ sudo docker run -d \
 	-p 5299:5299 \
 	-v `pwd`/LazyLibrarian/config:/config \
 	-v `pwd`/LazyLibrarian/downloads:/downloads \
-	-v path to data:/books \
+	-v `pwd`/LazyLibrarian/books:/books \
 	--restart unless-stopped \
 	linuxserver/lazylibrarian
 echo ""

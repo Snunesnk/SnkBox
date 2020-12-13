@@ -86,11 +86,11 @@ SetupDocker()
 		curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
 		echo "Done."
 	else
-		"Docker's official GPG key already added, skip."
+		echo "Docker's official GPG key already added, skip."
 	fi
 
 	echo "Setting up stable repository ..."
-	if [ ! grep -q "^deb*https://download.docker.com/linux/ubuntu" /etc/apt/sources.list /etc/apt/sources.list.d/* ]
+	if ! grep -q "^deb*https://download.docker.com/linux/ubuntu" /etc/apt/sources.list /etc/apt/sources.list.d/*
 	then
 		sudo add-apt-repository \
 			"deb [arch=amd64] https://download.docker.com/linux/ubuntu \
@@ -124,7 +124,7 @@ SetupDocker()
 	echo "Done."
 
 	test_portainer_volume=$(docker volume ls | grep portainer_data)
-	if [ -z $test_portainer_volume ]
+	if [ -z "$test_portainer_volume" ]
 	then
 		echo "Creating volume for portainer ..."
 		docker volume create portainer_data
@@ -149,6 +149,30 @@ SetupDocker()
 		fi
 	fi
 
+
+	echo ""
+	echo "Creating directory architecture for all services"
+	mkdir -p Jackett/config \
+		Jackett/downloads \
+		LazyLibrarian/config \
+		LazyLibrarian/downloads \
+		LazyLibrarian/books \
+		Lidarr/config \
+		Lidarr/music \
+		Lidarr/downloads \
+		Ombi/config \
+		Radarr/config \
+		Radarr/movies \
+		Radarr/downloads \
+		Sonarr/config \
+		Sonarr/tvseries \
+		Sonarr/downloads \
+		Transmission/config \
+		Transmission/downloads \
+		Transmission/watch
+	echo "done"
+
+
 	echo ""
 	echo "${green}Congratulation! Everything is properly set-up${normal}"
 }
@@ -158,6 +182,12 @@ deployServices() {
 	#Check if user specified a service, if not then launch all scripts
 	if [ -z $2 ]
 	then
+		echo "Stopping all running containers ..."
+		docker stop `docker ps -aq`
+		echo "Done."
+		echo "Removing all docker containers ..."
+		docker container rm `docker ps -aq`
+		echo "Done."
 		for script in ./deploy_scripts/*
 		do
 			bash $script

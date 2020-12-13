@@ -3,23 +3,18 @@
 echo ""
 echo "Starting transmission container ..."
  docker run --cap-add=NET_ADMIN -d \
-	--name=transmission \
-	-v `pwd`/Transmission/data:/data \
-	-v /etc/localtime:/etc/localtime:ro \
-	-e CREATE_TUN_DEVICE=true \
-	-e OPENVPN_PROVIDER=PIA \
-	-e OPENVPN_CONFIG=CA\ Toronto \
-	-e OPENVPN_USERNAME=user \
-	-e OPENVPN_PASSWORD=pass \
-	-e WEBPROXY_ENABLED=false \
-	-e LOCAL_NETWORK=192.168.1.0/24 \
-	-e TRANSMISSION_UMASK=0 \
-	-e TRANSMISSION_WEB_UI=combustion \
-	--log-driver json-file \
-	--log-opt max-size=10m \
-	--dns 8.8.8.8 \
-	--dns 8.8.4.4 \
-	-p 9091:9091 \
-	haugene/transmission-openvpn
+	 --name=transmission \
+	 -e PUID=1000 \
+	 -e PGID=1000 \
+	 -e TZ=Europe/London \
+	 -e TRANSMISSION_WEB_HOME=/combustion-release/ \
+	 -p 9091:9091 \
+	 -p 51413:51413 \
+	 -p 51413:51413/udp \
+	 -v `pwd`/Transmission/config:/config \
+	 -v `pwd`/Transmission/downloads:/downloads \
+	 -v `pwd`/Transmission/watch:/watch \
+	 --restart unless-stopped \
+	 ghcr.io/linuxserver/transmission
 echo "Done."
 echo ""
