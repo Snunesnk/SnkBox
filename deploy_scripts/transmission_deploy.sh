@@ -16,5 +16,5 @@ echo "Starting transmission container ..."
 	 -v `pwd`/Transmission/watch:/watch \
 	 --restart unless-stopped \
 	 ghcr.io/linuxserver/transmission
-echo "Done."
+echo "Done, Transmission is now listening to port 9091."
 echo ""

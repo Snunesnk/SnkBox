@@ -13,4 +13,4 @@ sudo docker run -d \
 	-v `pwd`/LazyLibrarian/books:/books \
 	--restart unless-stopped \
 	linuxserver/lazylibrarian
-echo ""
+echo "Done, LazyLibrarian is now listening to port 5299."

@@ -13,5 +13,5 @@ sudo docker run -d \
   -v `pwd`/Sonarr/downloads:/downloads \
   --restart unless-stopped \
   ghcr.io/linuxserver/sonarr
-echo "Done."
+echo "Done, Sonarr is now listening to port 8989."
 echo ""

@@ -180,9 +180,6 @@ deployServices() {
 		echo "Stopping all running containers ..."
 		docker stop `docker ps -aq`
 		echo "Done."
-		echo "Removing all docker containers ..."
-		docker container rm `docker ps -aq`
-		echo "Done."
 		for script in ./deploy_scripts/*
 		do
 			bash $script

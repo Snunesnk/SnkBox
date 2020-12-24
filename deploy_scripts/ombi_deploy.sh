@@ -11,4 +11,4 @@ docker run -d \
 	-v `pwd`/Ombi/config:/config \
 	--restart unless-stopped \
 	linuxserver/ombi
-echo ""
+echo "Done, Ombi is now listening to port 3579."

@@ -13,5 +13,5 @@ sudo docker run -d \
 	-v `pwd`/Radarr/downloads:/downloads \
 	--restart unless-stopped \
 	linuxserver/radarr
-	echo "Done."
+echo "Done, Radarr is now listening to port 7878."
 echo ""

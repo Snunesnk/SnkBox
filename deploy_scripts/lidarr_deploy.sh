@@ -13,4 +13,4 @@ sudo docker run -d \
 	-v `pwd`/Lidarr/downloads:/downloads \
 	--restart unless-stopped \
 	linuxserver/lidarr
-echo ""
+echo "Done, Lidarr is now listening to port 8686."

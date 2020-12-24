@@ -12,5 +12,5 @@ sudo docker run -d \
 	-v `pwd`/Jackett/downloads:/downloads \
 	--restart unless-stopped \
 	linuxserver/jackett
-echo "Done."
+echo "Done, Jackett is now listening to port 9117."
 echo ""
