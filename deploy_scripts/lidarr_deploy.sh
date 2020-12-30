@@ -18,9 +18,9 @@ else
     -e PGID=1000 \
     -e TZ=Europe/London \
     -p 8686:8686 \
-    -v `pwd`/Lidarr/config:/config \
-    -v `pwd`/Lidarr/music:/music \
-    -v `pwd`/Lidarr/downloads:/downloads \
+    -v /home/snunes/SnkBox/Lidarr/config:/config \
+    -v /home/snunes/SnkBox/Lidarr/music:/music \
+    -v /home/snunes/SnkBox/Lidarr/downloads:/downloads \
     --restart unless-stopped \
     linuxserver/lidarr
 fi

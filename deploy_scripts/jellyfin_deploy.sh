@@ -18,9 +18,9 @@ else
     -e PGID=1000 \
     -e TZ=Europe/London \
     -p 8096:8096 \
-    -v `pwd`/Jellyfin/config:/config \
-    -v `pwd`/Sonarr/tvshows:/data/tvshows \
-    -v `pwd`/Radarr/movies:/data/movies \
+    -v /home/snunes/SnkBox/Jellyfin/config:/config \
+    -v /home/snunes/SnkBox/Sonarr/tvshows:/data/tvshows \
+    -v /home/snunes/SnkBoxRadarr/movies:/data/movies \
     --restart unless-stopped \
     jellyfin/jellyfin
 fi

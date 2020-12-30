@@ -18,7 +18,7 @@ else
     -e PGID=1000 \
     -e TZ=Europe/London \
     -p 3579:3579 \
-    -v `pwd`/Ombi/config:/config \
+    -v /home/snunes/SnkBox/Ombi/config:/config \
     --restart unless-stopped \
     linuxserver/ombi
 fi

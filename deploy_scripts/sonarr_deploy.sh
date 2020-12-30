@@ -18,9 +18,10 @@ else
     -e PGID=1000 \
     -e TZ=Europe/London \
     -p 8989:8989 \
-    -v `pwd`/Sonarr/config:/config \
-    -v `pwd`/Sonarr/tvseries:/tv \
-    -v `pwd`/Sonarr/downloads:/downloads \
+	-p 9898:9898 \
+    -v /home/snunes/SnkBox/Sonarr/config:/config \
+    -v /home/snunes/SnkBox/Sonarr/tvseries:/tv \
+    -v /home/snunes/SnkBox/Sonarr/downloads:/downloads \
     --restart unless-stopped \
     ghcr.io/linuxserver/sonarr
 fi

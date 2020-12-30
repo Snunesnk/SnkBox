@@ -21,9 +21,11 @@ else
     -p 9091:9091 \
     -p 51413:51413 \
     -p 51413:51413/udp \
-    -v `pwd`/Transmission/config:/config \
-    -v `pwd`/Transmission/downloads:/downloads \
-    -v `pwd`/Transmission/watch:/watch \
+    -e USER=SNK \
+    -e PASS=SNK \
+    -v /home/snunes/SnkBox/Transmission/config:/config \
+    -v /home/snunes/SnkBox/Transmission/downloads:/downloads \
+    -v /home/snunes/SnkBox/Transmission/watch:/watch \
     --restart unless-stopped \
     ghcr.io/linuxserver/transmission
 fi

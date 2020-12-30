@@ -18,9 +18,9 @@ else
     -e PGID=1000 \
     -e TZ=Europe/London \
     -p 7878:7878 \
-    -v `pwd`/Radarr/config:/config \
-    -v `pwd`/Radarr/movies:/movies \
-    -v `pwd`/Radarr/downloads:/downloads \
+    -v /home/snunes/SnkBox/Radarr/config:/config \
+    -v /home/snunes/SnkBox/Radarr/movies:/movies \
+    -v /home/snunes/SnkBox/Radarr/downloads:/downloads \
     --restart unless-stopped \
     linuxserver/radarr
 fi

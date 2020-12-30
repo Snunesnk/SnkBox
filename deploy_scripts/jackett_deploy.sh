@@ -18,8 +18,8 @@ else
     -e PGID=1000 \
     -e TZ=Europe/London \
     -p 9117:9117 \
-    -v `pwd`/Jackett/config:/config \
-    -v `pwd`/Jackett/downloads:/downloads \
+    -v /home/snunes/SnkBox/Jackett/config:/config \
+    -v /home/snunes/SnkBox/Jackett/downloads:/downloads \
     --restart unless-stopped \
     linuxserver/jackett
 fi

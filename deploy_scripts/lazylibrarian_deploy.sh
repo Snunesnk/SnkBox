@@ -18,9 +18,9 @@ else
     -e PGID=1000 \
     -e TZ=Europe/London \
     -p 5299:5299 \
-    -v `pwd`/LazyLibrarian/config:/config \
-    -v `pwd`/LazyLibrarian/downloads:/downloads \
-    -v `pwd`/LazyLibrarian/books:/books \
+    -v /home/snunes/SnkBox/LazyLibrarian/config:/config \
+    -v /home/snunes/SnkBox/LazyLibrarian/downloads:/downloads \
+    -v /home/snunes/SnkBox/LazyLibrarian/books:/books \
     --restart unless-stopped \
     linuxserver/lazylibrarian
 fi
