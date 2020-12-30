@@ -177,9 +177,6 @@ deployServices() {
 	#Check if user specified a service, if not then launch all scripts
 	if [ -z $2 ]
 	then
-		echo "Stopping all running containers ..."
-		docker stop `docker ps -aq`
-		echo "Done."
 		for script in ./deploy_scripts/*
 		do
 			bash $script

@@ -2,15 +2,28 @@
 
 echo ""
 echo "Starting lidarr container ..."
-sudo docker run -d \
-	--name=lidarr \
-	-e PUID=1000 \
-	-e PGID=1000 \
-	-e TZ=Europe/London \
-	-p 8686:8686 \
-	-v `pwd`/Lidarr/config:/config \
-	-v `pwd`/Lidarr/music:/music \
-	-v `pwd`/Lidarr/downloads:/downloads \
-	--restart unless-stopped \
-	linuxserver/lidarr
+
+#Check if container exists or not
+test_container=$(docker ps -a | grep lidarr)
+if [[ ! -z $test_container ]]
+then
+    echo "Lidarr already started, restarting it.."
+    docker restart lidarr
+    
+#Launch it
+else
+    sudo docker run -d \
+    --name=lidarr \
+    -e PUID=1000 \
+    -e PGID=1000 \
+    -e TZ=Europe/London \
+    -p 8686:8686 \
+    -v `pwd`/Lidarr/config:/config \
+    -v `pwd`/Lidarr/music:/music \
+    -v `pwd`/Lidarr/downloads:/downloads \
+    --restart unless-stopped \
+    linuxserver/lidarr
+fi
+
 echo "Done, Lidarr is now listening to port 8686."
+echo ""
