@@ -12,6 +12,6 @@ docker run -d \
 	-v `pwd`/Sonarr/tvshows:/data/tvshows \
 	-v `pwd`/Radarr/movies:/data/movies \
 	--restart unless-stopped \
-	ghcr.io/linuxserver/jellyfin
+	jellyfin/jellyfin
 echo "Done, Jellyfin is now listening to port 8096."
 echo ""
