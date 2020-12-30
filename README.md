@@ -27,3 +27,8 @@ Could be great to just have one script to launch like ./snkbox init | ./snkbox d
 Maybe a small webpage to be able to easely access all services for admin / Easely switch between Plex / Jellyfin and Ombi for users
 
 And why not a rust webserver to manage it all !
+
+
+# TODO
+
+- Change deploy scripts to check if container is already in use or not
