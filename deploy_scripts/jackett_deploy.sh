@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+path=`pwd`
+
 echo ""
 echo "Starting jackett container ..."
 

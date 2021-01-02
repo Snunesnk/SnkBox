@@ -20,7 +20,12 @@ green=$(tput setaf 2)
 # Fonction to print usage if user used an invalid option / no option
 printUsage()
 {
-	echo "I'll print the usage"
+	echo "Usage:"
+	echo "./snkbox.sh setup"
+	echo "./snkbox.sh deploy [SERVICES]"
+	echo "./snkbox.sh stop [SERVICES]"
+	echo ""
+	echo "I need to do a proper usage print when I'll have some time"
 }
 
 
