@@ -5,6 +5,7 @@ services:
   # NZBget container
   nzbget:
     image: 'linuxserver/nzbget:latest'
+    container_name: nzbget
     restart: unless-stopped
     environment:
       - PGID=1001
@@ -20,6 +21,7 @@ services:
   # Sonarr container
   sonarr:
     image: 'linuxserver/sonarr:latest'
+    container_name: sonarr
     restart: unless-stopped
     depends_on:
       - nzbget
@@ -38,6 +40,7 @@ services:
   # Radarr conatainer
   radarr:
     image: 'linuxserver/radarr:latest'
+    container_name: radarr
     restart: unless-stopped
     depends_on:
       - nzbget
