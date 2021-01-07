@@ -13,6 +13,7 @@ services:
       - TZ=America/Los_Angeles
     volumes:
       - '/data/downloads:/data/downloads'
+      - '/data/media/movies:/downloads/completed/Movies'
       - '/data/services/nzbget:/config'
       - '/etc/localtime:/etc/localtime:ro'
     ports:
@@ -36,7 +37,7 @@ services:
       - '/etc/localtime:/etc/localtime:ro'
     ports:
       - '8989:8989'
-      
+
   # Radarr conatainer
   radarr:
     image: 'linuxserver/radarr:latest'
@@ -72,23 +73,53 @@ services:
       - '9117:9117'
     restart: unless-stopped
 
-  # Transmission container
-  transmission:
-    image: 'linuxserver/transmission:latest'
-    container_name: transmission
+  # Jellyfin container
+  jellyfin:
+    image: jellyfin/jellyfin
+    container_name: jellyfin
+    network_mode: "host"
+    user: 1001:1001
     environment:
-      - PUID=1001
-      - PGID=1001
       - TZ=Europe/London
-      - TRANSMISSION_WEB_HOME=/combustion-release/
-      - USER=SNK
-      - PASS=SNK
     volumes:
-      - '/data/services/transmission:/config'
-      - '/data/downloads:/downloads'
-      - '/data/watch:/watch'
+      - /data/services/jellyfin:/config
+      - /data/media/tv:/data/tvshows
+      - /data/media/movies:/data/movies
+      - /etc/letsencrypt/keys:/etc/keys
+      - /data/cache:/cache
+    ports:
+      - 8096:8096
+      - 8920:8920 #optional
+      - 7359:7359/udp #optional
+      - 1900:1900/udp #optional
+    restart: unless-stopped
+
+  # Transmission with vpn container
+  transmission-openvpn:
+    container_name: transmission-openvpn
+    cap_add:
+      - NET_ADMIN
+    volumes:
+      - '/data/downloads:/data'
+    environment:
+      - OPENVPN_PROVIDER=PRIVADO
+      - OPENVPN_CONFIG=fra-001,fra-002,fra-003,fra-004,fra-005,fra-006,fra-007,fra-008,beg-001,mad-001,osl-001sin-001,zrh-001
+      - OPENVPN_USERNAME=nhyeowvjxvwg
+      - OPENVPN_PASSWORD=9pG%ZKT&
+        #      - LOCAL_NETWORK=51.83.77.253/32
+    logging:
+      driver: json-file
+      options:
+        max-size: 10m
     ports:
       - '9091:9091'
       - '51413:51413'
-      - '51413:51413/udp'
-    restart: unless-stopped
+    image: haugene/transmission-openvpn
+
+  # Transmission with vpn container
+  transmission:
+    links:
+      - transmission-openvpn:transmission
+    ports:
+      - '8080:8080'
+    image: haugene/transmission-openvpn-proxy
