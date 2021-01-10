@@ -12,8 +12,7 @@ services:
       - PUID=1001
       - TZ=America/Los_Angeles
     volumes:
-      - '/data/downloads:/data/downloads'
-      - '/data/media/movies:/downloads/completed/Movies'
+      - '/data/downloads:/downloads'
       - '/data/services/nzbget:/config'
       - '/etc/localtime:/etc/localtime:ro'
     ports:
@@ -31,8 +30,8 @@ services:
       - PUID=1001
       - TZ=Europe/London
     volumes:
-      - '/data/downloads:/data/downloads'
-      - '/data/media/tv:/data/media/tv'
+      - '/data/downloads/completed:/data/completed'
+      - '/data/media/tv:/tv'
       - '/data/services/sonarr:/config'
       - '/etc/localtime:/etc/localtime:ro'
     ports:
@@ -50,8 +49,8 @@ services:
       - PUID=1001
       - TZ=Europe/London
     volumes:
-      - '/data/downloads:/data/downloads'
-      - '/data/media/movies:/data/media/movies'
+      - '/data/downloads/completed:/data/completed'
+      - '/data/media/movies:/movies'
       - '/data/services/radarr:/config'
       - '/etc/localtime:/etc/localtime:ro'
     ports:
@@ -101,9 +100,10 @@ services:
       - NET_ADMIN
     volumes:
       - '/data/downloads:/data'
+      - '/data/services/transmission:/config'
     environment:
       - OPENVPN_PROVIDER=PRIVADO
-      - OPENVPN_CONFIG=fra-001,fra-002,fra-003,fra-004,fra-005,fra-006,fra-007,fra-008,beg-001,mad-001,osl-001sin-001,zrh-001
+      - OPENVPN_CONFIG=fra-001,fra-002,fra-003,fra-004,fra-005,fra-006,fra-007,fra-008,beg-001,mad-001,osl-001,sin-001,zrh-001
       - OPENVPN_USERNAME=nhyeowvjxvwg
       - OPENVPN_PASSWORD=9pG%ZKT&
         #      - LOCAL_NETWORK=51.83.77.253/32
