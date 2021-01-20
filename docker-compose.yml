@@ -7,13 +7,18 @@ services:
     image: 'linuxserver/nzbget:latest'
     container_name: nzbget
     restart: unless-stopped
+    logging:
+      driver: "json-file"
+      options:
+        max-file: "3"
+        max-size: 10m
     environment:
       - PGID=1001
       - PUID=1001
-      - TZ=America/Los_Angeles
+      - TZ=Europe/Paris
     volumes:
-      - '/data/downloads:/downloads'
       - '/data/services/nzbget:/config'
+      - '/data/usenet:/usenet'
       - '/etc/localtime:/etc/localtime:ro'
     ports:
       - '6789:6789'
@@ -23,15 +28,19 @@ services:
     image: 'linuxserver/sonarr:latest'
     container_name: sonarr
     restart: unless-stopped
+    logging:
+      driver: "json-file"
+      options:
+        max-file: "3"
+        max-size: 10m
     depends_on:
       - nzbget
     environment:
       - PGID=1001
       - PUID=1001
-      - TZ=Europe/London
+      - TZ=Europe/Paris
     volumes:
-      - '/data/downloads/completed:/data/completed'
-      - '/data/media/tv:/tv'
+      - '/data:/data'
       - '/data/services/sonarr:/config'
       - '/etc/localtime:/etc/localtime:ro'
     ports:
@@ -42,15 +51,19 @@ services:
     image: 'linuxserver/radarr:latest'
     container_name: radarr
     restart: unless-stopped
+    logging:
+      driver: "json-file"
+      options:
+        max-file: "3"
+        max-size: 10m
     depends_on:
       - nzbget
     environment:
       - PGID=1001
       - PUID=1001
-      - TZ=Europe/London
+      - TZ=Europe/Paris
     volumes:
-      - '/data/downloads/completed:/data/completed'
-      - '/data/media/movies:/movies'
+      - '/data:/data'
       - '/data/services/radarr:/config'
       - '/etc/localtime:/etc/localtime:ro'
     ports:
@@ -60,14 +73,18 @@ services:
   jackett:
     image: 'linuxserver/jackett:latest'
     container_name: jackett
+    logging:
+      driver: "json-file"
+      options:
+        max-file: "3"
+        max-size: 10m
     environment:
       - PUID=1001
       - PGID=1001
-      - TZ=Europe/London
+      - TZ=Europe/Paris
       - AUTO_UPDATE=true
     volumes:
       - '/data/services/jackett:/config'
-      - '/data/downloads:/downloads'
     ports:
       - '9117:9117'
     restart: unless-stopped
@@ -76,16 +93,20 @@ services:
   jellyfin:
     image: jellyfin/jellyfin
     container_name: jellyfin
+    logging:
+      driver: "json-file"
+      options:
+        max-file: "3"
+        max-size: 10m
     network_mode: "host"
     user: 1001:1001
     environment:
-      - TZ=Europe/London
+      - TZ=Europe/Paris
     volumes:
-      - /data/services/jellyfin:/config
-      - /data/media/tv:/data/tvshows
-      - /data/media/movies:/data/movies
-      - /etc/letsencrypt/keys:/etc/keys
-      - /data/cache:/cache
+      - '/data/services/jellyfin:/config'
+      - '/merge/media:/media'
+      - '/etc/letsencrypt/keys:/etc/keys'
+      - '/data/cache:/cache'
     ports:
       - 8096:8096
       - 8920:8920 #optional
@@ -96,10 +117,15 @@ services:
   # Transmission with vpn container
   transmission-openvpn:
     container_name: transmission-openvpn
+    logging:
+      driver: "json-file"
+      options:
+        max-file: "3"
+        max-size: 10m
     cap_add:
       - NET_ADMIN
     volumes:
-      - '/data/downloads:/data'
+      - '/data/torrents:/data/torrents'
       - '/data/services/transmission:/config'
     environment:
       - OPENVPN_PROVIDER=PRIVADO
@@ -110,6 +136,7 @@ services:
     logging:
       driver: json-file
       options:
+        max-file: "3"
         max-size: 10m
     ports:
       - '9091:9091'
@@ -118,8 +145,56 @@ services:
 
   # Transmission with vpn container
   transmission:
+    logging:
+      driver: "json-file"
+      options:
+        max-file: "3"
+        max-size: 10m
     links:
       - transmission-openvpn:transmission
     ports:
       - '8080:8080'
     image: haugene/transmission-openvpn-proxy
+
+  # Watchtower container
+  watchtower:
+    container_name: watchtower
+    image: containrrr/watchtower
+    volumes:
+      - '/var/run/docker.sock:/var/run/docker.sock'
+      - '/root/.docker/config.json:/config.json'
+    environment:
+      - WATCHTOWER_CLEANUP=true
+
+  # Handbrake container
+  handbrake:
+    image: jlesage/handbrake
+    container_name: handbrake
+    ports:
+      - "5800:5800"
+    volumes:
+      - "/data/services/handbrake:/config:rw"
+      - "/:/storage:ro"
+      - "/data/usenet/media:/watch:rw"
+      - "/data/media:/output:rw"
+    environment:
+      - AUTOMATED_CONVERSION_KEEP_SOURCE=0
+      - AUTOMATED_CONVERSION_OUTPUT_SUBDIR=SAME_AS_SRC
+      - USER_ID=1001
+      - GROUP_ID=1001
+      - TZ=Europe/Paris
+      - KEEP_APP_RUNNING=1
+
+  ombi:
+    image: ghcr.io/linuxserver/ombi
+    container_name: ombi
+    environment:
+      - PUID=1001
+      - PGID=1001
+      - TZ=Europe/Paris
+      - BASE_URL=/ombi
+    volumes:
+      - '/data/services/ombi:/config'
+    ports:
+      - 3579:3579
+    restart: unless-stopped
