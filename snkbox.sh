@@ -122,14 +122,6 @@ SetupDocker()
 	sudo usermod -aG docker ${USER}
 	echo "Done."
 
-	test_portainer_volume=$(docker volume ls | grep portainer_data)
-	if [ -z "$test_portainer_volume" ]
-	then
-		echo "Creating volume for portainer ..."
-		docker volume create portainer_data
-		echo "Done."
-	fi
-
 	echo ""
 	#check if user already have docker completion or not
 	if [ ! -e /etc/bash_completion.d/docker-compose ]
@@ -148,61 +140,8 @@ SetupDocker()
 		fi
 	fi
 
-
-	echo ""
-	echo "Creating directory architecture for all services"
-	mkdir -p Jackett/config \
-		Jackett/downloads \
-		LazyLibrarian/config \
-		LazyLibrarian/downloads \
-		LazyLibrarian/books \
-		Lidarr/config \
-		Lidarr/music \
-		Lidarr/downloads \
-		Ombi/config \
-		Radarr/config \
-		Radarr/movies \
-		Radarr/downloads \
-		Sonarr/config \
-		Sonarr/tvseries \
-		Sonarr/downloads \
-		Transmission/config \
-		Transmission/downloads \
-		Transmission/watch \
-		Jellyfin/config
-	echo "done"
-
-
 	echo ""
 	echo "${green}Congratulation! Everything is properly set-up${normal}"
-}
-
-#Start one or more services by executing the corresponding script
-deployServices() {
-	#Check if user specified a service, if not then launch all scripts
-	if [ -z $2 ]
-	then
-		for script in ./deploy_scripts/*
-		do
-			bash $script
-		done
-	else
-		for service in $@
-		do
-			if [ $service != "deploy" ]
-			then
-				sudo bash ./deploy_scripts/${service}_deploy.sh
-				if [ $? -ne 0 ]
-				then
-					echo "An error occured when trying to deploy $service."
-					echo "Please check the spelling, it must match ./deploy_scripts/<service>_deploy.sh"
-					echo "The user must have permission to execute docker with \"sudo\" command."
-					echo "Aborting."
-					exit
-				fi
-			fi
-		done
-	fi
 }
 
 #Let's find what the user wants to do
@@ -213,7 +152,7 @@ case $1 in
 		;;
 
 	deploy)
-		deployServices "$@"
+		docker-compose up -d
 		;;
 
 	stop)

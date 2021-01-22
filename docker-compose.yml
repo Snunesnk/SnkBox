@@ -25,7 +25,7 @@ services:
 
   # Sonarr container
   sonarr:
-    image: 'linuxserver/sonarr:latest'
+    image: 'linuxserver/sonarr:preview'
     container_name: sonarr
     restart: unless-stopped
     logging:
@@ -40,7 +40,7 @@ services:
       - PUID=1001
       - TZ=Europe/Paris
     volumes:
-      - '/data:/data'
+      - '/merge/media/Series:/Series'
       - '/data/services/sonarr:/config'
       - '/etc/localtime:/etc/localtime:ro'
     ports:
@@ -63,9 +63,8 @@ services:
       - PUID=1001
       - TZ=Europe/Paris
     volumes:
-      - '/data:/data'
       - '/data/services/radarr:/config'
-      - '/data/usenet:/usenet'
+      - '/merge/media/Movies:/Movies'
       - '/etc/localtime:/etc/localtime:ro'
     ports:
       - '7878:7878'
@@ -176,8 +175,10 @@ services:
     volumes:
       - "/data/services/handbrake:/config:rw"
       - "/:/storage:ro"
-      - "/data/usenet/media:/watch:rw"
-      - "/data/media:/output:rw"
+      - "/data/usenet/media/Movies:/watch:rw"
+      - "/data/usenet/media/Series:/watch2:rw"
+      - "/data/media/Movies:/output:rw"
+      - "/data/media/Series:/output2:rw"
     environment:
       - AUTOMATED_CONVERSION_KEEP_SOURCE=0
       - AUTOMATED_CONVERSION_OUTPUT_SUBDIR=SAME_AS_SRC
@@ -199,4 +200,19 @@ services:
       - '/data/services/ombi:/config'
     ports:
       - 3579:3579
+    restart: unless-stopped
+
+  # NzbHydra2 container
+  nzbhydra2:
+    image: ghcr.io/linuxserver/nzbhydra2:latest
+    container_name: nzbhydra2
+    environment:
+      - PUID=1001
+      - PGID=1001
+      - TZ=Europe/Paris
+    volumes:
+      - '/data/services/nzbhydra2:/config'
+      - '/data/usenet/media:/downloads'
+    ports:
+      - 5076:5076
     restart: unless-stopped
