@@ -1,34 +1,33 @@
 # SnkBox
-My own automated media server deployment script + script to launch all / specified services + script to stop all / specified services, with docker contenerisation for all services, and vpn config throught openVpn
-reverse-proxy trought apashe (if user has domain name)
-port-forwarding (if user is not in NAT network)
-option to choose between couchpotato / radarr - plex / jellyfin
-option to add usenet (if user has usenet indexer + usenet provider)
+My own automated media server deployment script + script to launch all / specified services + script to stop all / specified services, with docker contenerisation for all service. Uses only usenet.
+reverse-proxy through nginx (if user has domain name) + ssl certification with certbot (TO DO)
 
 Software installed :
 
-- Portainer
-- Transmission
-- NewsHosting
-- NZBGet
-- Jackett
-- Sonarr
-- Radarr / couchpotato
-- Lidarr
-- Bazarr (Maybe)
-- LazyLibrarian
-- Ombi
-- Plex / Jellyfin
-- Apashe
+- NZBGet     -- NZB downloader tool
+- Sonarr     -- TV shows search tool
+- Radarr     -- Movies search tool
+- Ombi       -- User-friendly interface to search / request movies and TV shows
+- Jellyfin   -- Free and open-source alternative to plex, used to play all downloaded media
+- Nginx      -- Take care of the good communication between all sofrwares, behind a reverse proxy.
+- NZBHydra2  -- Gather all indexers in one place, so we don't have to repeteadly add indexers in sonarr and radarr. Get nice logs / charts too.
+- WatchTower -- Automatically update all container's image when needed.
+- HandBrake  -- Transcode each downloaded file, so it could by direct-played even on remote storage
 
 
-Could be great to just have one script to launch like ./snkbox init | ./snkbox deploy [service] | ./snkbox stop [service]
+I need to improve my start-up script to really init a maximum of things
+Missing (non-exhaustive):
+	- mergerfs
+	- 1fichierfs
+	- rclone
+	- certbot
+	- nginx
 
-Maybe a small webpage to be able to easely access all services for admin / Easely switch between Plex / Jellyfin and Ombi for users
-
-And why not a rust webserver to manage it all !
-
+I need to understand rust better to build a stable and strong web-server (even if there's not that much services)
 
 # TODO
 
 - Change deploy scripts to check if container is already in use or not
+- Improve user's interface (and admin why not)
+- find a way to upload directly indexers in nzbhydra2
+- Check if I use watchTower correctly
