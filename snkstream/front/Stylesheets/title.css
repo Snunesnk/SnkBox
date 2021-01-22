@@ -1,0 +1,86 @@
+@import "https://fonts.googleapis.com/css?family=Share+Tech+Mono";
+h1 {
+    font-size: 4.2em;
+    text-align: center;
+    padding: 9vh 0 0 0;
+    font-weight: 300;
+    letter-spacing: 1px;
+}
+
+#title {
+    font-family: "Share Tech Mono", monospace;
+    color: #C2B9B0;
+    text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.45);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+
+/*###Desktops, big landscape tablets and laptops(Large, Extra large)####*/
+@media screen and (min-width: 1000px){
+	#title {
+		font-size: 3vh;
+		margin-top: -7vh
+	}
+
+	.sexy_hr {
+		margin-top: -2vh;
+		margin-bottom: 9vh;
+    background: -webkit-gradient(radial, 50% 50%, 0, 50% 50%, 350, from(#4E4E50), to(#1A1A1D));
+	}
+}
+
+/*###Tablet(medium)###*/
+@media screen and (min-width : 768px) and (max-width : 999px){
+	#title {
+		font-size: 3vh;
+		margin-top: -7vh
+	}
+
+	.sexy_hr {
+		margin-top: -9vh;
+		margin-bottom: 9vh;
+    background: -webkit-gradient(radial, 50% 50%, 0, 50% 50%, 350, from(#4E4E50), to(#1A1A1D));
+	}
+}
+
+/*### Smartphones (portrait and landscape)(small)### */
+@media screen and (min-width : 0px) and (max-width : 767px){
+	#title {
+		font-size: 1.7vh;
+		margin-top: -3vh
+	}
+
+	.sexy_hr {
+		margin-top: -3vh;
+		margin-bottom: 4vh;
+    	background: -webkit-gradient(radial, 50% 50%, 0, 50% 50%, 150, from(#4E4E50), to(#1A1A1D));
+	}
+}
+
+#title::before,
+#title::after {
+    content: '';
+    display: block;
+    height: 0.09em;
+    min-width: 42vh;
+    margin-bottom: -7vh;
+}
+
+#title::before {
+    background: linear-gradient(to right, rgba(240, 240, 240, 0), #6F2232);
+    margin-right: 4vh;
+}
+
+#title::after {
+    background: linear-gradient(to left, rgba(240, 240, 240, 0), #6F2232);
+    margin-left: 4vh;
+}
+
+.sexy_hr {
+    display: block;
+    border: none;
+    color: white;
+    height: 1vh !important;
+}

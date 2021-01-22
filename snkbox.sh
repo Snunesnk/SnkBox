@@ -152,7 +152,27 @@ case $1 in
 		;;
 
 	deploy)
-		docker-compose up -d
+		echo "Starting the front page ..."
+		cd snkstream && cd web-server && cargo run
+		ret=$?
+		if [[ $ret -ne 0 && $ret -ne 1 ]]
+		then
+			echo "Failed to start front page"
+		else
+			echo "Done."
+			
+			echo ""
+
+			echo "Starting all services ..."
+			docker-compose up -d
+			
+			if [ $? -ne 0 ]
+			then
+				echo "Failed to start all services."
+			else
+				echo "Done."
+			fi
+		fi
 		;;
 
 	stop)

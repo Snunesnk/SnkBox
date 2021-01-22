@@ -1,0 +1,104 @@
+/* Heading */
+
+span {
+    border: 2px solid #4F5D75;
+    padding: 10px;
+}
+
+
+/* Layout Styling */
+
+#container {
+    width: 100%;
+    margin: 0 auto;
+    padding: 50px 0 150px 0;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+
+/* Button Styles */
+
+.button {
+    display: inline-flex;
+    height: 10vh;
+    width: 30vh;
+    border: 2px solid #6F2232;
+    margin: 20px 20px 20px 20px;
+    color: #BFC0C0;
+    text-transform: uppercase;
+    text-decoration: none;
+    font-size: 1.3em;
+    letter-spacing: 1.5px;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    border-radius: 6vh;
+}
+
+a {
+    color: #BFC0C0;
+    text-decoration: none;
+    letter-spacing: 1px;
+}
+
+
+/* Fifth Button */
+
+.button-5 {
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+}
+
+.button-5 a {
+    position: relative;
+    transition: all .45s ease-Out;
+}
+
+.translate {
+    transform: rotate(50deg);
+    width: 100%;
+    height: 250%;
+    left: -200px;
+    top: -30px;
+    background: #6F2232;
+    position: absolute;
+    transition: all .15s ease-Out;
+}
+
+.button-5:hover .translate {
+    left: 0;
+}
+
+@media screen and (min-width:1000px) {
+    h1 {
+        font-size: 4.2em;
+    }
+    #container {
+        width: 50%;
+    }
+}
+
+.containing-div {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+    height: 42vh;
+}
+
+.btn_icon {
+    margin-left: -3vh;
+    margin-right: 2.5vh;
+    z-index: 10;
+}
+
+.double_btn {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    width: 100%;
+}
