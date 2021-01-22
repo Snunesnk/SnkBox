@@ -22,8 +22,7 @@ printUsage()
 {
 	echo "Usage:"
 	echo "./snkbox.sh setup"
-	echo "./snkbox.sh deploy [SERVICES]"
-	echo "./snkbox.sh stop [SERVICES]"
+	echo "./snkbox.sh deploy"
 	echo ""
 	echo "I need to do a proper usage print when I'll have some time"
 }
@@ -173,10 +172,6 @@ case $1 in
 				echo "Done."
 			fi
 		fi
-		;;
-
-	stop)
-		echo "I need to stop all / some services"
 		;;
 
 	*)
